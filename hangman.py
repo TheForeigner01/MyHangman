@@ -88,7 +88,7 @@ def loop():
                 for k in guesses:
                     if k == char:
                         found  = False
-                    guesses.append(char)
+                guesses.append(char)
 
             w = 0
             for i, asd in enumerate(question):
