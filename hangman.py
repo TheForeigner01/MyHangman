@@ -7,7 +7,7 @@ fails = 0
 lives = 10
 wordlist = "wordlist.txt"
 Found = False
-Done = False
+won = False
 question = []
 def welcome():
     print("___________________________________________________")
@@ -27,7 +27,6 @@ def welcome():
 
 def lvl_easy():
     get_word()
-    info()
     loop()
     
     
@@ -48,55 +47,71 @@ def get_word(): # gets random word from txt file
     word = l[w_index].strip()
 
 def info(): #shows information about the state of game for player
+    
     print("You have guessed these letters so far:")
+    
     print( *guesses, sep = ", ")
+    
     print("\n" + ui)
+
 
     
 def loop():
-    global Done
+    global won
     global lives
     global word
     global fails
     global question
     global answer
+    global guesses
     answer = list(word)
     found = False
-
+    n=0
+    
     while fails < lives:   
         
-        n = 0
+        
         while n < len(answer):
             question.append("_ ")
             n+=1
 
-        if not Done:
-            char = input("Guess a character frmóom the word: ")
+        if not won:
+            info()
+            char = input("Guess a character from the word: ")
             for i, asd in enumerate(answer):
                 if asd == char:
-                   question[i] = char
+                   question[i] = char + " "
                    found = True
-
-            if not found:
+                
+            if not found: 
                 fails += 1
-        
+                for k in guesses:
+                    if k == char:
+                        found  = False
+                    guesses.append(char)
+
+            w = 0
             for i, asd in enumerate(question):
-                w=0
+                
                 if asd != "_ ":
                     w+=1
                     if w == len(question):
                         win()
-                        break
-
-            print(question)
+                        exit()
+            
+            print()
+            print("".join(map(str,question)))
             #print(answer)
-            print("number of fails: " + str(fails))
+            print("\nNumber of fails: " + str(fails))
+            found = False
+
     print("You Lost")
 
 def win():
-    global Done
-    Done = True
-    print("You Won")
+    global won
+    won = True
+    print("\n !!! You Won !!! \n")
+
 
 welcome()
 
